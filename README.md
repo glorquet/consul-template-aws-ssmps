@@ -1,7 +1,5 @@
 # Consul Template plugin for AWS SSM Parameter Store
 
-[![Build Status](https://travis-ci.com/stanimoto/consul-template-aws-ssmps.svg?branch=master)](https://travis-ci.com/stanimoto/consul-template-aws-ssmps)
-
 ## Installation
 
 1. Move the binary into `$PATH`.
@@ -11,7 +9,7 @@
 If you want to set the AWS region via the environment variable, set the "AWS_REGION" to the region you want.
 
 ```shell
-$ AWS_REGION=us-west-2 consul-template ...
+AWS_REGION=us-west-2 consul-template ...
 ```
 
 ## Usage
@@ -50,7 +48,7 @@ If you store values for the same key under the different paths for each environm
 For example, you have /production/database/password and /development/database/password in the Parameter Store.
 
 ```shell
-$ export SSMPS_BASE_PATH=/production
+export SSMPS_BASE_PATH=/production
 ```
 
 ```liquid

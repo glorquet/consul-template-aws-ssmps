@@ -1,0 +1,44 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - name: Install dependencies
+        run: go get .
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Build (amd64)
+        run: env GOOS=linux GOARCH=amd64 go build -ldflags "-X main.version=${{ github.ref_name }}" -o consul_template_ssmps_linux_amd64 main.go
+
+      - name: Build (arm64)
+        run: env GOOS=linux GOARCH=arm64 go build -ldflags "-X main.version=${{ github.ref_name }}" -o consul_template_ssmps_linux_arm64 main.go
+
+      - name: Compress Build Files
+        run: |
+          tar -czvf $GITHUB_WORKSPACE/consul_template_ssmps_linux_amd64.tar.gz consul_template_ssmps_linux_amd64
+          tar -czvf $GITHUB_WORKSPACE/consul_template_ssmps_linux_arm64.tar.gz consul_template_ssmps_linux_arm64
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          files: |
+            **/consul_template_ssmps_linux_amd64.tar.gz
+            **/consul_template_ssmps_linux_arm64.tar.gz
