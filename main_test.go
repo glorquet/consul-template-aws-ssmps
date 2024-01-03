@@ -246,11 +246,11 @@ func TestMakeBatches(t *testing.T) {
 		inSize   int
 		want     [][]string
 	}{
-		{[]string{}, 1, [][]string{[]string{}}},
-		{[]string{"a", "b"}, 1, [][]string{[]string{"a"}, []string{"b"}}},
-		{[]string{"a", "b"}, 2, [][]string{[]string{"a", "b"}}},
-		{[]string{"a", "b", "c"}, 2, [][]string{[]string{"a", "b"}, []string{"c"}}},
-		{[]string{"a", "b", "c", "d"}, 2, [][]string{[]string{"a", "b"}, []string{"c", "d"}}},
+		{[]string{}, 1, [][]string{{}}},
+		{[]string{"a", "b"}, 1, [][]string{{"a"}, {"b"}}},
+		{[]string{"a", "b"}, 2, [][]string{{"a", "b"}}},
+		{[]string{"a", "b", "c"}, 2, [][]string{{"a", "b"}, {"c"}}},
+		{[]string{"a", "b", "c", "d"}, 2, [][]string{{"a", "b"}, {"c", "d"}}},
 	}
 
 	for _, c := range cases {
